@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal INSS 2026 - Estilo Kultivi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary-blue: #002D5B; --accent-orange: #FF8C00; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; }
+        .sidebar { background-color: var(--primary-blue); }
+        .card-materia:hover { transform: translateY(-5px); transition: all 0.3s; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <aside class="sidebar w-64 text-white hidden md:flex flex-col">
+        <div class="p-6 text-2xl font-bold border-b border-blue-800">
+            <span class="text-orange-400">INSS</span>2026
+        </div>
+        <nav class="flex-1 p-4">
+            <ul class="space-y-4">
+                <li><a href="#" class="block p-2 hover:bg-blue-700 rounded transition"><i class="fas fa-home mr-2"></i> Início</a></li>
+                <li><a href="#" onclick="renderizarMaterias('Direito Previdenciário')" class="block p-2 hover:bg-blue-700 rounded transition"><i class="fas fa-gavel mr-2"></i> Previdenciário</a></li>
+                <li><a href="#" onclick="renderizarMaterias('Português')" class="block p-2 hover:bg-blue-700 rounded transition"><i class="fas fa-book mr-2"></i> Português</a></li>
+                <li><a href="https://www.planalto.gov.br" target="_blank" class="block p-2 text-orange-300 font-bold"><i class="fas fa-external-link-alt mr-2"></i> Leis Oficiais</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8">
+        <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm">
+            <h1 id="titulo-pagina" class="text-2xl font-bold text-gray-800">Painel do Aluno</h1>
+            <div id="status-banco" class="flex items-center text-green-600 text-sm">
+                <span class="relative flex h-3 w-3 mr-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+                Banco de Dados Sincronizado
+            </div>
+        </header>
+
+        <div id="conteudo-dinamico" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+    </main>
+
+    <script>
+        // SIMULAÇÃO DE BANCO DE DADOS (JSON)
+        // Se você alterar aqui, o site atualiza na hora!
+        const bancoDeDados = [
+            {
+                materia: "Direito Previdenciário",
+                topico: "Seguridade Social (Art. 194)",
+                status: "Atualizado 2026",
+                link: "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm#art194",
+                cor: "border-blue-600"
+            },
+            {
+                materia: "Direito Previdenciário",
+                topico: "Segurados Obrigatórios",
+                status: "Crítico para Prova",
+                link: "https://www.planalto.gov.br/ccivil_03/leis/l8213compilado.htm",
+                cor: "border-orange-500"
+            },
+            {
+                materia: "Português",
+                topico: "Interpretação de Textos",
+                status: "Banca Cebraspe",
+                link: "#",
+                cor: "border-green-500"
+            }
+        ];
+
+        function renderizarMaterias(filtro = "") {
+            const container = document.getElementById('conteudo-dinamico');
+            container.innerHTML = "";
+            
+            const dadosFiltrados = filtro ? bancoDeDados.filter(item => item.materia === filtro) : bancoDeDados;
+
+            dadosFiltrados.forEach(item => {
+                container.innerHTML += `
+                    <div class="card-materia bg-white border-l-4 ${item.cor} p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">${item.materia}</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-2">${item.topico}</h3>
+                        <p class="text-sm text-green-600 font-medium mt-1"><i class="fas fa-check-circle mr-1"></i> ${item.status}</p>
+                        <a href="${item.link}" target="_blank" class="mt-4 inline-block bg-blue-900 text-white px-4 py-2 rounded text-sm hover:bg-orange-500 transition">Estudar Agora</a>
+                    </div>
+                `;
+            });
+        }
+
+        // Inicializar o site
+        renderizarMaterias();
+    </script>
+</body>
+</html>
